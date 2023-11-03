@@ -32,6 +32,7 @@ pipeline {
                 sh 'ngh --dir=dist/angularproject'
             }
         }
+}
 post {
 		success{
 		mail bcc: '', body: '''Dear Dali, 
@@ -52,5 +53,4 @@ Keep working !
             cleanWs()
        }
     }
-}
 }
