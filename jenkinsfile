@@ -12,14 +12,15 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building Angular project...'
-                sh 'ng build --prod'
+                sh 'npm install'
+                sh 'npm build --prod'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Testing Angular project...'
-                sh 'ng test'
+                sh 'npm test'
             }
         }
 
