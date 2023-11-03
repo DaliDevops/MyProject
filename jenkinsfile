@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Checking out code from Git...'
-                git 'https://github.com/yourusername/yourangularproject.git'
+                git 'https://github.com/DaliDevops/MyProject.git'
             }
         }
 
@@ -28,8 +28,8 @@ pipeline {
             steps {
                 echo 'Deploying Angular project to GitHub Pages...'
                 sh 'npm install -g angular-cli-ghpages'
-                sh 'ng build --prod --base-href "https://yourusername.github.io/yourangularproject/"'
-                sh 'ngh --dir=dist/yourangularproject'
+                sh 'ng build --prod --base-href "https://DaliDevops.github.io/angularproject/"'
+                sh 'ngh --dir=dist/angularproject'
             }
         }
 post {
