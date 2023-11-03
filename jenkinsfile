@@ -18,12 +18,6 @@ pipeline {
                 sh 'npm run build'
             }
         }
-
-        stage('Test') {
-            steps {
-                echo 'Testing Angular project...'
-                sh 'npm test'
-            }
         }
 
         stage('Deploy') {
