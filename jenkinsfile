@@ -1,13 +1,5 @@
 pipeline{
 
-    // No agent specified
-
- 
-
- 
-
- 
-
     stages {
 
  
