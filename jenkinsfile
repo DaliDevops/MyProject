@@ -5,7 +5,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Checking out code from Git...'
-                git 'https://github.com/DaliDevops/MyProject.git'
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+			extensions: [],
+			userRemoteConfigs: [[url: 'https://github.com/DaliDevops/MyProject.git']]])
             }
         }
 
@@ -13,7 +15,7 @@ pipeline {
             steps {
                 echo 'Building Angular project...'
                 sh 'npm install'
-                sh 'npm build --prod'
+                sh 'npm run build'
             }
         }
 
