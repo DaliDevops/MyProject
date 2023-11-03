@@ -1,235 +1,55 @@
-pipeline{
-
-    stages {
-
- 
-
- 
-
-        stage('Getting project from Git') {
-
-            steps{
-
-                        checkout([$class: 'GitSCM', branches: [[name: 'master']],
-
-                  extensions: [],
-
-                  userRemoteConfigs: [[url: 'https://github.com/DaliDevops/MyProject.git']]])
-
-            }
-
-        }
-
- 
-
- 
-
-       stage('Cleaning the project') {
-
-            steps{
-
-                  sh "mvn -B -DskipTests clean  "
-
-            }
-
-        }
-
- 
-
- 
-
- 
-
-        stage('Artifact Construction') {
-
-            steps{
-
-                  sh "mvn -B -DskipTests package "
-
-            }
-
-        }
-
- 
-
- 
-
- 
-
-         stage('Unit Tests') {
-
-            steps{
-
-                         sh "mvn test "
-
-            }
-
-        }
-
- 
-
- 
-
- 
-
-        stage('Code Quality Check via SonarQube') {
-
-            steps{
-
- 
-
-                        sh "  mvn admin:sonar -Dsonar.projectKey=MyProject -Dsonar.host.url=http://192.168.1.55:9000"
-
- 
-
-            }
-
-        }
-
- 
-
- 
-
-        /*stage('Publish to Nexus') {
-
-            steps {
-
- 
-
- 
-
-  sh 'mvn clean package deploy:deploy-file -DgroupId=com.esprit.examen -DartifactId=tpAchatProject -Dversion=1.2 -DgeneratePom=true -Dpackaging=jar -DrepositoryId=deploymentRepo -Durl=http://192.168.1.55:8081/repository/maven-releases/ -Dfile=target/tpAchatProject-1.2.jar'
-
- 
-
- 
-
-            }
-
-        }*/
-
- 
-
-/*stage('Build Docker Image') {
-
-                      steps {
-
-                          script {
-
-                            sh 'docker build -t azizbenhaha/spring-app:latest .'
-
-                          }
-
-                      }
-
-                  }
-
- 
-
-                  stage('login dockerhub') {
-
-                                        steps {
-
-                                     // sh 'echo dckr_pat_-SnwrdC_ELsL6it2JT6cgIcAlrs | docker login -u azizbenhaha --password-stdin'
-
-                        sh 'docker login -u azizbenhaha --password dckr_pat_-SnwrdC_ELsL6it2JT6cgIcAlrs'
-
-                                            }
-
-              }
-
-         
-
-                            stage('Push Docker Image') {
-
-                                        steps {
-
-                                   sh 'docker push azizbenhaha/spring-app:latest'
-
-                                            }
-
-              }*/
-
- 
-
- 
-
-               stage('Run Spring && MySQL Containers') {
-
-                                steps {
-
-                                    script {
-
-                                      sh 'docker-compose up -d'
-
-                                    }
-
-                                }
-
-                            }
-
- 
-
-         
-
- 
-
- 
-
- 
-
-    
-
-}
-
- 
-
-         
-
-        post {
-
-            success{
-
-            mail bcc: '', body: '''Dear Dali,
-
-we are happy to inform you that your pipeline build was successful.
-
-Great work !
-
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out code from Git...'
+                git 'https://github.com/yourusername/yourangularproject.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building Angular project...'
+                sh 'npm install'
+                sh 'ng build --prod'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Testing Angular project...'
+                sh 'ng test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying Angular project to GitHub Pages...'
+                sh 'npm install -g angular-cli-ghpages'
+                sh 'ng build --prod --base-href "https://yourusername.github.io/yourangularproject/"'
+                sh 'ngh --dir=dist/yourangularproject'
+            }
+        }
+post {
+		success{
+		mail bcc: '', body: '''Dear Dali, 
+we are happy to inform you that your pipeline build was successful. 
+Great work ! 
 -Jenkins Team-''', cc: '', from: 'dali2008fr@hotmail.fr', replyTo: '', subject: 'Build Finished - Success', to: 'dali2008fr@hotmail.fr'
-
-            }
-
-            
-
-            failure{
-
-mail bcc: '', body: '''Dear Dali,
-
-we are sorry to inform you that your pipeline build failed.
-
-Keep working !
-
+		}
+		
+		failure{
+mail bcc: '', body: '''Dear Dali, 
+we are sorry to inform you that your pipeline build failed. 
+Keep working ! 
 -Jenkins Team-''', cc: '', from: 'dali2008fr@hotmail.fr', replyTo: '', subject: 'Build Finished - Failure', to: 'dali2008fr@hotmail.fr'
+		}
 
-            }
-
- 
-
-       always {
-
-            //emailext attachLog: true, body: '', subject: 'Build finished',from: 'dali2008fr@hotmail.fr' , to: 'dali2008fr@hotmail.fr'
-
-            cleanWs()
-
-       }
-
-    }
-
- 
-
-  
-
-      
-
+       always {
+		//emailext attachLog: true, body: '', subject: 'Build finished',from: 'dali2008fr@hotmail.fr' , to: 'dali2008fr@hotmail.fr'
+            cleanWs()
+       }
+    }
 }
