@@ -12,8 +12,7 @@ pipeline {
         }
 stage('Cleaning the project') {
             steps{
-                	sh "mvn -B -MyProject clean  "
-           }
+                	sh "mvn -B -MyProject clean"
         }
         stage('Install') {
             steps {
@@ -40,4 +39,5 @@ post {
          }
       }
   }
+}
 }
