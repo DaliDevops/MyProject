@@ -21,10 +21,14 @@ stage('Cleaning the project') {
                 sh 'npm install'
             }
           stage('Build') {
+            steps {
                 sh 'npm run build'
+            }
           }
           stage('Access') {
+            steps {
                 sh 'ng serve --host 192.168.2.55 --port 4200'
+            }
             }
         }
 }
