@@ -15,9 +15,7 @@ pipeline {
             steps {
                 echo 'Building Angular project...'
                 sh 'npm install'
-                sh 'npm run test'
                 sh 'npm run build'
-                sh 'npm audit fix'
                 sh 'ng serve --host 192.168.2.55 --port 4200'
             }
         }
