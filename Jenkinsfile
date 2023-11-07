@@ -7,7 +7,7 @@ pipeline {
                 echo 'Checking out code from Git...'
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']],
 			extensions: [],
-			userRemoteConfigs: [[url: 'git@github.com:DaliDevops/MyProject.git']]])
+			userRemoteConfigs: [[url: 'https://github.com/DaliDevops/MyProject.git']]])
             }
         }
 
