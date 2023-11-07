@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+      
         stage('Checkout') {
             steps {
                 echo 'Checking out code from Git...'
@@ -10,9 +11,10 @@ pipeline {
 			userRemoteConfigs: [[url: 'https://github.com/DaliDevops/MyProject.git']]])
             }
         }
+      
 stage('Cleaning the project') {
             steps{
-                	sh "mvn -B -MyProject clean"
+                	sh "mvn -B -MyProject clean "
         }
 }
     
@@ -21,18 +23,21 @@ stage('Cleaning the project') {
                 echo 'Building Angular project...'
                 sh 'npm install'
             }
+        }
+      
           stage('Build') {
             steps {
                 sh 'npm run build'
             }
           }
+      
           stage('Access') {
             steps {
                 sh 'ng serve --host 192.168.2.55 --port 4200'
             }
             }
+      
         }
-}
 post {
    success {
      script {
