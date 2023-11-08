@@ -11,12 +11,6 @@ pipeline {
 			userRemoteConfigs: [[url: 'https://github.com/DaliDevops/MyProject.git']]])
             }
         }
-      
-stage('Cleaning the project') {
-            steps{
-                	sh "mvn -B -Jenkins-project clean "
-}
-}
     
         stage('Install') {
             steps {
