@@ -14,7 +14,7 @@ pipeline {
       
 stage('Cleaning the project') {
             steps{
-                	sh "mvn -B clean "
+                	sh "mvn -B -Jenkins-project clean "
 }
 }
     
